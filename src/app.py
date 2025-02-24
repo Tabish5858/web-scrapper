@@ -60,7 +60,7 @@ def websocket(ws):
                             result = scrape_website(
                                 url,
                                 callback=progress_callback,
-                                max_pages=10  # Adjust max pages to scrape
+                                max_pages=15  # Adjust max pages to scrape
                             )
                             results.append(result)
 
