@@ -36,7 +36,8 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function initializeWebSocket() {
-  const socket = new WebSocket(`ws://${window.location.host}/ws`);
+  const wsProtocol = window.location.protocol === "https:" ? "wss:" : "ws:";
+  const socket = new WebSocket(`${wsProtocol}//${window.location.hostname}/ws`);
   const resultsBody = document.getElementById("results-body");
   const progressBar = document.getElementById("progress");
   const currentCount = document.getElementById("current");
