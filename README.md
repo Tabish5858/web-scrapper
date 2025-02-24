@@ -15,7 +15,7 @@ A powerful and efficient web application built with Flask that scrapes company i
 
 ```bash
 # Clone the repository
-git clone https://github.com/Tabish5858/flask-web-scraper.git
+git clone https://github.com/Tabish5858/web-scrapper.git
 cd flask-web-scraper
 
 # Create virtual environment
