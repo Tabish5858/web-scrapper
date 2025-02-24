@@ -15,7 +15,7 @@ A powerful and efficient web application built with Flask that scrapes company i
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/flask-web-scraper.git
+git clone https://github.com/Tabish5858/flask-web-scraper.git
 cd flask-web-scraper
 
 # Create virtual environment
@@ -28,10 +28,10 @@ pip install -r requirements.txt
 
 ## 📸 Screenshots
 
-![Upload CSV](path/to/upload_screenshot.png)
+![Upload CSV](home.png)
 *Upload CSV file with website URLs*
 
-![Progress Tracking](path/to/progress_screenshot.png)
+![Progress Tracking](progress.png)
 *Real-time progress updates and responsive UI*
 
 ## 🛠️ Usage
@@ -51,5 +51,5 @@ This project is licensed under the MIT License.
 
 ## 📧 Contact
 
-For any inquiries, please contact [tabishbinishfaq1122@gmail.com](mailto:your-email@example.com).
+For any inquiries, please contact [tabishbinishfaq1122@gmail.com](mailto:tabishbinishfaq1122@gmail.com).
 
