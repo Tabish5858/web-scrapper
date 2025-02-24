@@ -60,7 +60,7 @@ def websocket(ws):
                             result = scrape_website(
                                 url,
                                 callback=progress_callback,
-                                max_pages=5  # Adjust max pages to scrape
+                                max_pages=10  # Adjust max pages to scrape
                             )
                             results.append(result)
 
@@ -166,10 +166,10 @@ def download_file(filename):
 @app.context_processor
 def utility_processor():
     """Add utility functions to template context"""
-    def current_year():
-        from datetime import datetime
-        return datetime.now().year
-    return dict(current_year=current_year)
+    from datetime import datetime
+    return {
+        "current_year": datetime.utcnow().year  # Return the year value directly
+    }
 
 if __name__ == "__main__":
     app.run(debug=True)
