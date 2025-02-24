@@ -2,7 +2,7 @@ import sys
 import os
 
 # Add your project directory to Python path
-path = '/home/yourusername/flask-web-scraper'
+path = '/home/tabish/flask-web-scraper'
 if path not in sys.path:
     sys.path.append(path)
 
