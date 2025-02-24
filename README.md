@@ -26,6 +26,16 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
+## ▶️ How to Run
+
+```bash
+# Run the Flask application
+cd ./src
+python app.py
+```
+
+Open your web browser and navigate to `http://127.0.0.1:5000` to access the web scraper.
+
 ## 📸 Screenshots
 
 ![Upload CSV](home.png)
@@ -52,4 +62,3 @@ This project is licensed under the MIT License.
 ## 📧 Contact
 
 For any inquiries, please contact [tabishbinishfaq1122@gmail.com](mailto:tabishbinishfaq1122@gmail.com).
-
