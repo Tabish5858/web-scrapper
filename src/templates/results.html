@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <title>Scraping Results</title>
+</head>
+
+<body>
+    {% extends "base.html" %}
+
+    {% block title %}Scraping Results{% endblock %}
+
+    {% block content %}
+    <div class="container">
+        <h1>Scraping Results</h1>
+        <script id="urls-data" type="application/json">
+        {{ urls|tojson|safe }}
+    </script>
+        <div id="progress-container">
+            <div id="progress-bar">
+                <div id="progress"></div>
+            </div>
+            <span id="status">Scraping: <span id="current">0</span> / <span id="total">{{ total }}</span></span>
+        </div>
+        <table class="results-table">
+            <thead>
+                <tr>
+                    <th>Website</th>
+                    <th>Company Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Location</th>
+                </tr>
+            </thead>
+            <tbody id="results-body"></tbody>
+        </table>
+        <div class="actions">
+            <a id="download-link" style="display: none;" class="button">Download CSV</a>
+            <a href="{{ url_for('index') }}" class="button">New Search</a>
+        </div>
+    </div>
+    {% endblock %}
+
+    {% block scripts %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Initialize WebSocket connection
+            const socket = new WebSocket(`ws://${window.location.host}/ws`);
+            const resultsBody = document.getElementById('results-body');
+            const progressBar = document.getElementById('progress');
+            const currentCount = document.getElementById('current');
+            const totalCount = document.getElementById('total');
+            const downloadLink = document.getElementById('download-link');
+            const statusText = document.getElementById('status');
+
+            // Get URLs from hidden data element
+            const urls = JSON.parse(document.getElementById('urls-data').textContent);
+            console.log('URLs to scrape:', urls);
+
+            socket.onopen = function () {
+                console.log('WebSocket connected, starting scrape...');
+                socket.send(JSON.stringify({
+                    type: 'start_scrape',
+                    urls: urls
+                }));
+            };
+
+            socket.onmessage = function (event) {
+                try {
+                    const data = JSON.parse(event.data);
+                    console.log('Received:', data.type);
+
+                    if (data.type === 'progress') {
+                        const progress = (data.current / data.total) * 100;
+                        progressBar.style.width = `${progress}%`;
+                        currentCount.textContent = data.current;
+                    }
+                    else if (data.type === 'result') {
+                        const row = document.createElement('tr');
+                        row.className = 'result-row';
+                        row.innerHTML = `
+                        <td><a href="${data.result.url}" target="_blank">${data.result.url}</a></td>
+                        <td>${data.result.company_name}</td>
+                        <td>${data.result.email !== 'N/A' ?
+                                `<a href="mailto:${data.result.email}">${data.result.email}</a>` :
+                                'N/A'}</td>
+                        <td>${data.result.phone !== 'N/A' ?
+                                `<a href="tel:${data.result.phone}">${data.result.phone}</a>` :
+                                'N/A'}</td>
+                        <td>${data.result.location}</td>
+                    `;
+                        resultsBody.appendChild(row);
+                    }
+                    else if (data.type === 'complete') {
+                        downloadLink.href = `/download/${data.filename}`;
+                        downloadLink.style.display = 'inline-block';
+                        statusText.textContent = 'Scraping Complete!';
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    statusText.textContent = 'Error processing data';
+                }
+            };
+
+            socket.onerror = function (error) {
+                console.error('WebSocket Error:', error);
+                statusText.textContent = 'Connection Error';
+            };
+        });
+    </script>
+    {% endblock %}
+</body>
+
+</html>

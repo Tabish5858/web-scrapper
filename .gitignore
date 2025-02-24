@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+ENV/
+env/
+*.env
+
+# Flask
+instance/
+.webassets-cache
+uploads/
+
+# VS Code
+.vscode/
+*.code-workspace
+
+# Project specific
+*.csv
+*.log
